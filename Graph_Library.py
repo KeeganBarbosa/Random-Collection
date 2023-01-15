@@ -21,28 +21,77 @@ class Graphs(object):
         edgeset=[]
         for vertex in self.graph:
             for neighbour in self.graph[vertex]:
-                edgeset.append({vertex,neighbour})
+                if {vertex,neighbour} not in edgeset:
+                    edgeset.append({vertex,neighbour})
         return(edgeset)
     
-    def get_connected_components(self):
-        seen = set()
-        components = []
-        for v in self.graph:
-            if v not in seen:
-                component = []
-                nodes = {v}
-                while nodes:
-                    v = nodes.pop()
-                    seen.add(v)
-                    component.append(v)
-                    nodes.update(self.graph[v].difference(seen))
+"""Below is a collection of graph operations of importance. All rely on applications of BFS."""
+    
+def BFS(G,vertex):
+    seen = []
+    queue = []
+    queue.append(vertex)
+    seen.append(vertex)
+    while queue:
+        stage= queue.pop(0)
+        for nextvertex in G[stage]:
+            if nextvertex not in seen:
+                seen.append(nextvertex)
+                queue.append(nextvertex)
+    return(seen)
+
+
+
+def get_connected_components(Input):
+    seen = set()
+    components = []
+    for v in Input:
+        if v not in seen:
+            component = []
+            nodes = {v}
+            while nodes:
+                v = nodes.pop()
+                seen.add(v)
+                component.append(v)
+                nodes.update(Input[v].difference(seen))
+                if component not in components:
                     components.append(component)
         return(components)
    
-    def is_connected(self):
-        if len(self.graph.edges)>len(self.graph.vertices)*(len(self.graph.vertices)-1)/2:
-            return("Graph is connected.")
-        if len(self.graph.get_connected_components)==1:
-            return("Graph is connected.")
-        else:
-            return("Graph is disconnected.")
+
+def is_connected(Input):
+    if len(get_connected_components(Input))==1:
+        return("Graph is connected.")
+    else:
+        return("Graph is disconnected.")        
+
+
+"""Distance operator ought to be better."""
+def distance(Graph,v,w):
+    seen={}
+    queue=[]
+    seen.add(v)
+    queue.append(v)
+    d=0
+    if v==w:
+        return(d)
+    else:
+        while queue:
+            d+=1
+            for vertex in queue:
+                for neighbour in G[vertex]:
+                    if neighbour == w:
+                        return(d)
+                    else:
+                        if neighbour not in seen:
+                            queue.pop()
+                            seen.add(neighbour)
+                            queue.append(neighbour)
+            
+            
+        
+
+G={1:{2,3},2:{1},3:{1}}
+
+print(BFS(G,3))
+
