@@ -66,7 +66,7 @@ def is_connected(Input):
         return("Graph is disconnected.")        
 
 
-"""Distance operator ought to be better."""
+"""The below could be further optimized, but is functional."""
 def distance(Graph,v,w):
     seen={}
     queue=[]
