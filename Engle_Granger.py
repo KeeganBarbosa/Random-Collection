@@ -24,6 +24,8 @@ and time series has small amount of inputs.
 Ought to use gradient descent to find approx min in future. 
 """
 
+"""Run regression against each column, find best column to regress wrt LS, produce cointegrated portfolio."""
+
 def Engle_Granger(A):
     Thetas=[]
     Costs=[]
